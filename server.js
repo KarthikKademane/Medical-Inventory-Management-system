@@ -17,9 +17,152 @@ app.use(bodyParser.urlencoded({ extended: false}));
 //   res.send('Hello World!')
 // })
 
+app.get('/patient', (req, res) => {
+
+    const client = new Client({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'medical1',
+        password: 'karthik@123',
+        port: 5432
+    })
+    client.connect()
+    .then(()=>{
+        console.log("connection complete");
+        return client.query('SELECT * FROM patient')
+    })
+    .then((result)=>{
+        console.log('results?',result);
+        res.render('patient' , result);
+    });
+
+
+    
+    })
+
+app.get('/patientadd', (req, res) => {
+    res.render('patient-form');
+    })
+
+
+    app.post('/patient/add', (req, res) => {
+        console.log("post body", req.body);
+       
+        
+         const client = new Client({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'medical1',
+        password: 'karthik@123',
+        port: 5432
+    })
+    client.connect()
+    .then(()=>{
+        console.log("connection complete");
+        const sql = 'INSERT INTO patient (id, name , diagnosed_type, admitted_date) VALUES ($1, $2, $3, $4)'
+        const params = [req.body.admittedNumber, req.body.medicineName, req.body.diagnosedType, req.body.admittedDate];
+        return client.query(sql,params);
+    })
+    .then((result)=>{
+        console.log('results?',result);
+        res.redirect('/patient');
+    });
+        
+    
+    });
+
+
+
+    app.post('/patient/delete/:id', (req, res) => {
+    
+
+        const client = new Client({
+            user: 'postgres',
+            host: 'localhost',
+            database: 'medical1',
+            password: 'karthik@123',
+            port: 5432
+        })
+        client.connect()
+        .then(()=>{
+            const sql = 'DELETE FROM patient WHERE id = $1'
+            const params = [req.params.id];
+            return client.query(sql,params);
+        })
+        .then((result)=>{
+            res.redirect('/patient');
+        });
+    
+    });
+
+
+
+    app.get('/patient/edit/:id', (req, res) => {
+
+        const client = new Client({
+            user: 'postgres',
+            host: 'localhost',
+            database: 'medical1',
+            password: 'karthik@123',
+            port: 5432
+        })
+        client.connect()
+        .then(()=>{
+            const sql = 'SELECT * FROM patient WHERE id=$1'
+            const params = [req.params.id];
+            return client.query(sql,params);
+        })
+        .then((results)=>{
+            res.render('patient-edit',{patient:results.rows[0]});
+        });
+    
+     
+     })
+    
+    
+    
+     app.post('/patient/edit/:id', (req, res) => {
+        
+    
+        const client = new Client({
+            user: 'postgres',
+            host: 'localhost',
+            database: 'medical1',
+            password: 'karthik@123',
+            port: 5432
+        })
+        client.connect()
+        .then(()=>{
+            const sql = 'UPDATE patient SET name=$1, diagnosed_type=$2, admitted_date=$3 WHERE id=$4'
+            const params = [req.body.medicineName, req.body.diagnosedType, req.body.admittedDate, req.params.id];
+    
+            return client.query(sql,params);
+        })
+        .then((result)=>{
+            res.redirect('/patient');
+        });
+    
+    });
+
+
+
+
+
+
+
+
+   
+    
+
+
+
+
 app.get('/add', (req, res) => {
 res.render('med-form');
 })
+
+
+
 
 app.post('/meds/add', (req, res) => {
     console.log("post body", req.body);
