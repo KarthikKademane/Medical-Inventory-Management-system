@@ -18,8 +18,6 @@
 
     <th scope="col">DIAGNOSED TYPE</th>
     <th scope="col">ADMITTED DATE</th>
-    <th scope="col">EDIT</th>
-    <th scope="col">DELETE</th>
     </tr>
 
     <tr>
@@ -27,17 +25,10 @@
           <tr>
           <td>{{id}}</td>
           <td>{{name}}</td>
-          
+
           <td>{{diagnosed_type}}</td>
           <td>{{admitted_date}}</td>
-          <td>
-      <form class="" action="/patient/delete/{{id}}" method="post">
-        <button type="submit" class="btn btn-danger " name="button">Delete</button>
-      </form>
-      <td>
-      <a class="btn btn-success" href="/patient/edit/{{id}}">Edit</a>
-      </td>
-      </td>
+
       {{/rows}}
     </tr>
     </table>
