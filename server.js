@@ -19,28 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false}));
 
 
 app.get('/signin', (req, res) => {
-
-   res.render('signin');
-
+res.render('signin');
 });
 
 
 app.post('/signin', (req, res) => {
-
-  email: req.body.inputEmail;
-   password: req.body.inputPassword;
-
-if (email == "karthik@gmail.com" && password == "123")
-{
-  res.render('editor-view');
-}
-else
-{
-  res.render('workers')
-}
-
-
-
 
 });
 
