@@ -120,6 +120,57 @@ app.get('/editorview', (req, res) => {
       });
     });
 
+
+///////////////////////////////////////////////////////////////////////////////////////
+app.get('/doctorslots', (req, res) => {
+    res.render('docpat');
+  });
+
+  app.get('/doctordetailss', (req, res) => {
+
+        res.render('doctordetailss', );
+  });
+
+
+app.get('/doctorslot/add', (req, res) => {
+        console.log("post body", req.body, req.query, req.params);
+
+
+         const client = new Client({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'medical1',
+        password: 'karthik@123',
+        port: 5432
+    })
+    client.connect()
+    .then(()=>{
+        console.log("connection complete");
+        const sql = 'select e.id, f.dept, f.name, f.available_time, f.to_till, f.experience from doctor as f, patient as e where e.id =$1 and f.dept=e.diagnosed_type;'
+        const params = [req.query.id];
+        return client.query(sql,params);
+    })
+    .then((result)=>{
+        console.log('results?',result);
+        res.render('doctordetailss', {rows:result.rows});
+    });
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 
