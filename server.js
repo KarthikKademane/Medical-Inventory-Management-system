@@ -18,14 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 // })
 
 
-app.get('/signin', (req, res) => {
-res.render('signin');
-});
-
-
-app.post('/signin', (req, res) => {
-
-});
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -440,6 +432,14 @@ app.post('/dealer/add', (req, res) => {
 
 
 
+// app.get('/signin', (req, res) => {
+// res.render('signin');
+// });
+
+
+// app.post('/signin', (req, res) => {
+
+// });
 
 
 
